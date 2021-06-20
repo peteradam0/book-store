@@ -2,15 +2,19 @@ package com.example.bookstore.Service.Impl;
 
 import com.example.bookstore.DAO.BookDao;
 import com.example.bookstore.Entity.Book;
+import com.example.bookstore.Exception.ServiceLayerException;
 import com.example.bookstore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Component
 public class BookServiceImpl implements BookService {
+
+    private static final Logger logger = Logger.getLogger(BookServiceImpl.class.getName());
 
     @Autowired
     private BookDao bookDao;
@@ -21,8 +25,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBook(Long id) {
-        return bookDao.getOne(id);
+    public Book getBook(Long id) throws ServiceLayerException {
+        Book book = bookDao.getOne(id);
+        if (book == null) {
+            logger.severe("book not found");
+            throw new ServiceLayerException("book not found");
+        }
+        return book;
     }
 
     @Override
@@ -38,7 +47,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllBooksByName(String name) {
+    public List<Book> getAllBooksByName(String name) throws ServiceLayerException {
+        List<Book> bookList = bookDao.findByNameContaining(name);
+
+        if (bookList.isEmpty()) {
+            logger.severe("book not found");
+            throw new ServiceLayerException("book not found");
+        }
         return bookDao.findByNameContaining(name);
     }
 }

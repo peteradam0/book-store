@@ -1,7 +1,6 @@
-package com.k8s.springboot.ticket.util;
+package com.example.bookstore.util;
 
 
-import com.k8s.springboot.ticket.dto.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,9 +24,9 @@ public class JwtTokenUtil implements Serializable {
         return (String) getMapFromIoJsonwebtokenClaims(Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody()).get("sub");
     }
 
-    public String generateToken(UserDto userLoginDto) {
+    public  String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userLoginDto.getEmail());
+        return doGenerateToken(claims, email);
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {

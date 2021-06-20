@@ -1,8 +1,12 @@
-package edu.bbte.puma.backend.bookdemo.utils;
+package com.example.bookstore.util;
 
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Column;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Component
 public class PasswordEncrypterUtil {
 
     public static String passwordHash(String password) {

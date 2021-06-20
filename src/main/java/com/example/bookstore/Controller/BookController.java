@@ -1,12 +1,11 @@
 package com.example.bookstore.Controller;
 
-import com.example.bookstore.Dto.BookDto;
-import com.example.bookstore.Dto.BookWithoutCategoryDto;
+import com.example.bookstore.Exception.ServiceLayerException;
 import com.example.bookstore.Facade.Impl.BookFacadeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -17,13 +16,27 @@ public class BookController {
     private BookFacadeImpl bookFacade;
 
     @GetMapping("/")
-    public List<BookDto> getBooks(){return bookFacade.getBookDtos();}
+    public ResponseEntity getBooks() {
+        return ResponseEntity.ok(bookFacade.getBookDtos());
+    }
 
     @GetMapping("/{id}")
-    public BookWithoutCategoryDto getBooks(@PathVariable Long id){return bookFacade.getBookDto(id);}
+    public ResponseEntity getBook(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(bookFacade.getBookDto(id));
+        } catch (ServiceLayerException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+        }
+    }
 
 
     @GetMapping("/search/{name}")
-    public List<BookWithoutCategoryDto> getBooks(@PathVariable String name){return bookFacade.getBookDtoByName(name);}
+    public ResponseEntity getBooks(@PathVariable String name) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(bookFacade.getBookDtoByName(name));
+        } catch (ServiceLayerException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+        }
+    }
 
 }

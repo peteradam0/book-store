@@ -5,6 +5,7 @@ import com.example.bookstore.Converter.Impl.BookWithoutCategoryDtoPopulator;
 import com.example.bookstore.Dto.BookDto;
 import com.example.bookstore.Dto.BookWithoutCategoryDto;
 import com.example.bookstore.Entity.Book;
+import com.example.bookstore.Exception.ServiceLayerException;
 import com.example.bookstore.Facade.BookFacade;
 import com.example.bookstore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class BookFacadeImpl implements BookFacade {
     }
 
     @Override
-    public BookWithoutCategoryDto getBookDto(Long id) {
+    public BookWithoutCategoryDto getBookDto(Long id) throws ServiceLayerException {
         Book book = bookService.getBook(id);
         BookWithoutCategoryDto bookDto = new BookWithoutCategoryDto();
         bookWithoutCategoryDtoPopulator.populate(book,bookDto);
@@ -61,7 +62,7 @@ public class BookFacadeImpl implements BookFacade {
     }
 
     @Override
-    public List<BookWithoutCategoryDto> getBookDtoByName(String name) {
+    public List<BookWithoutCategoryDto> getBookDtoByName(String name) throws ServiceLayerException {
         List<Book> tempBooks = bookService.getAllBooksByName(name);
         List<BookWithoutCategoryDto> bookDto = new ArrayList<>();
 

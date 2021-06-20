@@ -1,8 +1,11 @@
 package com.example.bookstore.Controller;
 
 import com.example.bookstore.Dto.BookCategoryDto;
+import com.example.bookstore.Exception.ServiceLayerException;
 import com.example.bookstore.Facade.Impl.BookCategoryFacadeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +18,11 @@ public class BookCategoryController {
 
 
     @GetMapping("/search/category/{id}")
-    public BookCategoryDto getBooks(@PathVariable Long id) {
-        return bookCategoryFacade.getBookCategoryDto(id);
+    public ResponseEntity getBooks(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(bookCategoryFacade.getBookCategoryDto(id));
+        } catch (ServiceLayerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

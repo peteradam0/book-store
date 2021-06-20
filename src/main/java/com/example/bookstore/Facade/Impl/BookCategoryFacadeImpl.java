@@ -4,6 +4,7 @@ import com.example.bookstore.Converter.Impl.BookCategoryToBookCategoryDtoPopualt
 import com.example.bookstore.Converter.Impl.BookWithoutCategoryDtoPopulator;
 import com.example.bookstore.Dto.BookCategoryDto;
 import com.example.bookstore.Entity.BookCategory;
+import com.example.bookstore.Exception.ServiceLayerException;
 import com.example.bookstore.Facade.BookCategoryFacade;
 import com.example.bookstore.Service.BookCategoryService;
 import com.example.bookstore.Service.BookService;
@@ -20,16 +21,10 @@ public class BookCategoryFacadeImpl implements BookCategoryFacade {
     private BookCategoryService bookCategoryService;
 
     @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private BookWithoutCategoryDtoPopulator bookWithoutCategoryDtoPopulator;
-
-    @Autowired
     private BookCategoryToBookCategoryDtoPopualtor bookCategoryToBookCategoryDtoPopualtor;
 
     @Override
-    public List<BookCategoryDto> getBookCategoryDtos() {
+    public List<BookCategoryDto> getBookCategoryDtos() throws ServiceLayerException {
         List<BookCategory> bookCategories = bookCategoryService.getAllBooks();
         List<BookCategoryDto> bookCategoryDtoList = new ArrayList<>();
 
@@ -42,7 +37,7 @@ public class BookCategoryFacadeImpl implements BookCategoryFacade {
     }
 
     @Override
-    public BookCategoryDto getBookCategoryDto(Long id) {
+    public BookCategoryDto getBookCategoryDto(Long id) throws ServiceLayerException {
         BookCategory bookCategory = bookCategoryService.getBook(id);
         BookCategoryDto bookCategoryDto = new BookCategoryDto();
 

@@ -2,14 +2,20 @@ package com.example.bookstore.Service.Impl;
 
 import com.example.bookstore.DAO.UserDao;
 import com.example.bookstore.Entity.User;
+import com.example.bookstore.Exception.ServiceLayerException;
 import com.example.bookstore.Service.UserService;
+import com.example.bookstore.util.PasswordEncrypterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 @Component
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
     private UserDao userDao;
@@ -25,13 +31,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insertUser(User user) {
-        userDao.save(user);
+    public void insertUser(User user) throws ServiceLayerException {
+        if (userExists(user)) {
+            logger.severe("User already exists");
+            throw new ServiceLayerException("User already exists");
+        } else {
+            userDao.save(encryptUserPassword(user));
+        }
     }
-
 
     @Override
     public boolean userExists(User user) {
-        return userDao.existsById(user.getId());
+        User userFromDb = userDao.getUserByEmail(user.getEmail());
+        return userFromDb != null;
     }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) throws ServiceLayerException {
+        Optional<User> user = Optional.of(userDao.getUserByEmail(email));
+        if (user.isEmpty()) {
+            logger.severe("User with email: " + email + " not found");
+            throw new ServiceLayerException("User not found");
+        }
+        return user;
+    }
+
+
+    private User encryptUserPassword(User user) {
+        String encryptedPassword = PasswordEncrypterUtil.passwordHash(user.getPassword());
+        user.setPassword(encryptedPassword);
+        return user;
+    }
+
+
 }
