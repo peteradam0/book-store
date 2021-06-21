@@ -16,38 +16,45 @@ import { UserRegistrationService } from './service/user-registration.service';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 
-
 const routes: Routes = [
   {
-    path: 'login', component: LoginComponent
+    path: 'login',
+    component: LoginComponent,
   },
   {
-    path: 'register', component: RegistrationComponent
+    path: 'register',
+    component: RegistrationComponent,
   },
   {
-    path: 'cart-details', component: CartDetailsComponent
+    path: 'cart-details',
+    component: CartDetailsComponent,
   },
   {
-    path: 'books/:id', component: BookDetailsComponent
+    path: 'books/:id',
+    component: BookDetailsComponent,
   },
   {
-    path: 'books', component: BookListComponent
+    path: 'books',
+    component: BookListComponent,
   },
   {
-    path: 'category/:id', component: BookListComponent
+    path: 'category/:id',
+    component: BookListComponent,
   },
   {
-    path: 'search/:keyword', component: BookListComponent
+    path: 'search/:keyword',
+    component: BookListComponent,
   },
 
   {
-    path: '', redirectTo: '/books', pathMatch: 'full'
+    path: '',
+    redirectTo: '/books',
+    pathMatch: 'full',
   },
   {
-    path: '**', component: PageNotFoundComponent
+    path: '**',
+    component: PageNotFoundComponent,
   },
-
-
 ];
 
 @NgModule({
@@ -59,19 +66,15 @@ const routes: Routes = [
     CartStatusComponent,
     CartDetailsComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
   ],
-  providers: [
-    BookService,
-    UserRegistrationService
-
-  ],
-  bootstrap: [AppComponent]
+  providers: [BookService, UserRegistrationService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

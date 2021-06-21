@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -24,7 +25,7 @@ public class JwtTokenUtil implements Serializable {
         return (String) getMapFromIoJsonwebtokenClaims(Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody()).get("sub");
     }
 
-    public  String generateToken(String email) {
+    public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, email);
     }
@@ -42,5 +43,28 @@ public class JwtTokenUtil implements Serializable {
             expectedMap.put(entry.getKey(), entry.getValue());
         }
         return expectedMap;
+    }
+
+    public Boolean validateToken(String token, String emailFromDb) {
+        final String emailFromToken = getEmailFromToken(token);
+        return (emailFromToken.equals(emailFromDb) && !isTokenExpired(token));
+    }
+
+    private Boolean isTokenExpired(String token) {
+        final Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(new Date());
+    }
+
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 }
