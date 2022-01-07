@@ -1,7 +1,7 @@
 package com.example.bookstore.facade;
 
-import com.example.bookstore.Dto.UserDto;
-import com.example.bookstore.Dto.UserLoginDto;
+import com.example.bookstore.dto.UserDto;
+import com.example.bookstore.dto.UserLoginDto;
 import com.example.bookstore.exception.FacadeLayerException;
 import com.example.bookstore.exception.ServiceLayerException;
 

@@ -1,4 +1,4 @@
-package com.example.bookstore.Dto;
+package com.example.bookstore.dto;
 
 public class BookCategoryNameDto {
 

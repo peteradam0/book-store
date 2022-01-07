@@ -1,6 +1,7 @@
 package com.example.bookstore.service.Impl;
 
 import com.example.bookstore.dao.UserDao;
+import com.example.bookstore.dao.UserTemporaryDao;
 import com.example.bookstore.entity.User;
 import com.example.bookstore.exception.ServiceLayerException;
 import com.example.bookstore.service.UserService;
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private UserTemporaryDao userTemporaryDao;
+
     @Override
     public List<User> getAllUser() {
         return userDao.findAll();
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService {
             logger.severe("User already exists");
             throw new ServiceLayerException("User already exists");
         } else {
-            userDao.save(encryptUserPassword(user));
+            userDao.save(user);
         }
     }
 
@@ -54,6 +58,11 @@ public class UserServiceImpl implements UserService {
             throw new ServiceLayerException("User not found");
         }
         return user;
+    }
+
+    @Override
+    public boolean loginUser(String email, String password) {
+        return userTemporaryDao.loginUser(email,password);
     }
 
 

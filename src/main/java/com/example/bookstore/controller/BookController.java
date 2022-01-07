@@ -2,6 +2,7 @@ package com.example.bookstore.controller;
 
 import com.example.bookstore.exception.ServiceLayerException;
 import com.example.bookstore.facade.Impl.BookFacadeImpl;
+import io.sentry.Sentry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class BookController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(bookFacade.getBookDto(id));
         } catch (ServiceLayerException e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
         }
     }
@@ -35,6 +37,7 @@ public class BookController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(bookFacade.getBookDtoByName(name));
         } catch (ServiceLayerException e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
         }
     }

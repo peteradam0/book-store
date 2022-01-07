@@ -1,6 +1,6 @@
 package com.example.bookstore.facade;
 
-import com.example.bookstore.Dto.BookCategoryDto;
+import com.example.bookstore.dto.BookCategoryDto;
 import com.example.bookstore.exception.ServiceLayerException;
 
 import java.util.List;

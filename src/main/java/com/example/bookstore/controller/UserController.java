@@ -1,12 +1,13 @@
 package com.example.bookstore.controller;
 
 
-import com.example.bookstore.Dto.UserDto;
-import com.example.bookstore.Dto.UserLoginDto;
+import com.example.bookstore.dto.UserDto;
+import com.example.bookstore.dto.UserLoginDto;
 import com.example.bookstore.exception.FacadeLayerException;
 import com.example.bookstore.exception.ServiceLayerException;
 import com.example.bookstore.facade.Impl.UserFacadeImpl;
 import com.example.bookstore.util.JwtTokenUtil;
+import io.sentry.Sentry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +39,7 @@ public class UserController {
             httpServletResponse.addCookie(cookie);
             return ResponseEntity.status(HttpStatus.OK).body("User Registered");
         } catch (ServiceLayerException e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration fail");
         }
     }
@@ -52,6 +54,7 @@ public class UserController {
             httpServletResponse.addCookie(cookie);
             return ResponseEntity.status(HttpStatus.OK).body("Login Successful");
         } catch (FacadeLayerException | ServiceLayerException e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

@@ -2,8 +2,8 @@ package com.example.bookstore.facade.Impl;
 
 import com.example.bookstore.converter.Impl.BookToBookDtoPopulator;
 import com.example.bookstore.converter.Impl.BookWithoutCategoryDtoPopulator;
-import com.example.bookstore.Dto.BookDto;
-import com.example.bookstore.Dto.BookWithoutCategoryDto;
+import com.example.bookstore.dto.BookDto;
+import com.example.bookstore.dto.BookWithoutCategoryDto;
 import com.example.bookstore.entity.Book;
 import com.example.bookstore.exception.ServiceLayerException;
 import com.example.bookstore.facade.BookFacade;

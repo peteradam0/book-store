@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
+import { Router } from '@angular/router';
+import * as Sentry from '@sentry/angular';
 
 import { AppComponent } from './app.component';
 import { BookListComponent } from './components/book-list/book-list.component';
@@ -74,7 +77,26 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
   ],
-  providers: [BookService, UserRegistrationService],
+  providers: [
+    BookService,
+    UserRegistrationService,
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

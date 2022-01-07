@@ -2,8 +2,8 @@ package com.example.bookstore.facade.Impl;
 
 import com.example.bookstore.converter.Impl.UserDtoToUserPopulator;
 import com.example.bookstore.converter.Impl.UserToUserDtoPopulator;
-import com.example.bookstore.Dto.UserDto;
-import com.example.bookstore.Dto.UserLoginDto;
+import com.example.bookstore.dto.UserDto;
+import com.example.bookstore.dto.UserLoginDto;
 import com.example.bookstore.entity.User;
 import com.example.bookstore.exception.FacadeLayerException;
 import com.example.bookstore.exception.ServiceLayerException;
@@ -59,7 +59,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public UserLoginDto login(UserLoginDto userDto) throws FacadeLayerException, ServiceLayerException {
-        if(userService.getUserByEmail(userDto.getEmail()).isPresent()){
+        if(userService.loginUser(userDto.getEmail(),userDto.getPassword())){
             return userDto;
         }else {
             throw new FacadeLayerException("User login faild");

@@ -1,7 +1,7 @@
 package com.example.bookstore.converter.Impl;
 
 import com.example.bookstore.converter.Populator;
-import com.example.bookstore.Dto.BookCategoryNameDto;
+import com.example.bookstore.dto.BookCategoryNameDto;
 import com.example.bookstore.entity.BookCategory;
 import org.springframework.stereotype.Component;
 

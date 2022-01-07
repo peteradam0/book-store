@@ -1,8 +1,8 @@
 package com.example.bookstore.converter.Impl;
 
 import com.example.bookstore.converter.Populator;
-import com.example.bookstore.Dto.BookCategoryDto;
-import com.example.bookstore.Dto.BookWithoutCategoryDto;
+import com.example.bookstore.dto.BookCategoryDto;
+import com.example.bookstore.dto.BookWithoutCategoryDto;
 import com.example.bookstore.entity.Book;
 import com.example.bookstore.entity.BookCategory;
 import org.springframework.beans.factory.annotation.Autowired;

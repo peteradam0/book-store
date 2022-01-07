@@ -1,10 +1,4 @@
-package com.company.DbConnection;
-
-import com.company.Entity.Course;
-import com.company.Entity.Instructor;
-import com.company.Entity.Student;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+package com.example.bookstore.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,20 +6,10 @@ import java.sql.DriverManager;
 public class DbConnection {
 
     public static Connection getConnection() throws Exception {
-        String jbcUrl = "jdbc:mysql://localhost:3306/uni";
-        String user = "student";
-        String password = "student";
+        String jbcUrl = "jdbc:mysql://localhost:3306/book-store?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String user = "bookstore";
+        String password = "bookstore";
         return DriverManager.getConnection(jbcUrl, user, password);
     }
 
-    public static SessionFactory getSessionConnection() throws Exception {
-
-        SessionFactory factory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Instructor.class)
-                .addAnnotatedClass(Course.class)
-                .addAnnotatedClass(Student.class)
-                .buildSessionFactory();
-        return factory;
-    }
 }

@@ -12,4 +12,5 @@ public interface UserService {
     void insertUser(User user) throws ServiceLayerException;
     boolean userExists(User user);
     Optional<User> getUserByEmail(String email) throws ServiceLayerException;
+    boolean loginUser(String email, String password);
 }
