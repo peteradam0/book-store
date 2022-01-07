@@ -9,17 +9,15 @@ import { CartService } from 'src/app/service/cart.service';
   selector: 'app-book-list',
   // templateUrl: './book-list.component.html',
   templateUrl: './book-grid.component.html',
-  styleUrls: ['./book-list.component.css']
+  styleUrls: ['./book-list.component.css'],
 })
 export class BookListComponent implements OnInit {
-
   books: Book[] = [];
-
-
 
   searchMode: boolean | undefined;
 
-  constructor(private _bookService: BookService,
+  constructor(
+    private _bookService: BookService,
     private _activatedRoute: ActivatedRoute,
     private _cartService: CartService
   ) {}
@@ -27,13 +25,11 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(() => {
       this.listBooks();
-    })
-
+    });
   }
 
   listBooks() {
-
-    this.searchMode = this._activatedRoute.snapshot.paramMap.has('keyword')
+    this.searchMode = this._activatedRoute.snapshot.paramMap.has('keyword');
 
     if (this.searchMode) {
       this.handleSearchBooks();
@@ -43,38 +39,32 @@ export class BookListComponent implements OnInit {
   }
 
   handleListBooks() {
-    const hasCategoryId: boolean = this._activatedRoute.snapshot.paramMap.has('id');
+    const hasCategoryId: boolean =
+      this._activatedRoute.snapshot.paramMap.has('id');
     let currentCategoryId = 1;
-    
-    if (hasCategoryId) {
-      currentCategoryId = + this._activatedRoute.snapshot.paramMap.get('id')
-    } 
- 
-    this._bookService.getBooks(currentCategoryId).subscribe(
-      data => {
-        let booksObj = Object.keys(data).map(i => data[i]);
-        console.log(booksObj[1]);
-        this.books = booksObj[1];
-      }
-    )
-  }
 
+    if (hasCategoryId) {
+      currentCategoryId = +this._activatedRoute.snapshot.paramMap.get('id');
+    }
+
+    this._bookService.getBooks(currentCategoryId).subscribe((data) => {
+      let booksObj = Object.keys(data).map((i) => data[i]);
+      console.log(booksObj[1]);
+      this.books = booksObj[1];
+    });
+  }
 
   handleSearchBooks() {
-   const keyword = this._activatedRoute.snapshot.paramMap.get('keyword');
+    const keyword = this._activatedRoute.snapshot.paramMap.get('keyword');
 
-    this._bookService.searchBooks(keyword).subscribe(
-      data =>{
-        this.books = data;
-      }
-    )
+    this._bookService.searchBooks(keyword!).subscribe((data) => {
+      this.books = data;
+    });
   }
 
-
-  addToCart(book: Book){
+  addToCart(book: Book) {
     console.log(`book name: ${book.name}, and price : ${book.unitPrice}`);
     const cartItem = new CartItem(book);
     this._cartService.addToCart(cartItem);
   }
-
 }
